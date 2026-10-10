@@ -1,0 +1,7 @@
+Library,Book ID,Title,Author,Status
+Central Library,B001,Python Basics,John Smith,Available
+Central Library,B002,Clean Code,Robert Martin,Available
+Computer Science Library,B003,Python Crash Course,Eric Matthes,Available
+Computer Science Library,B004,Artificial Intelligence,Stuart Russell,Available
+Digital Library,B005,Machine Learning,Tom Mitchell,Available
+Digital Library,B006,Deep Learning,Ian Goodfellow,Available

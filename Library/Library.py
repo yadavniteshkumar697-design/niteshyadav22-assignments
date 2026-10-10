@@ -1,3 +1,6 @@
+import csv
+
+
 class Book:
     def __init__(self, title, book_id, author):
         self.title = title
@@ -5,50 +8,103 @@ class Book:
         self.author = author
         self.is_borrowed = False
 
+    def __str__(self):
+        status = "Borrowed" if self.is_borrowed else "Available"
+        return f"{self.book_id} | {self.title} | {self.author} | {status}"
+
 
 class Library:
     def __init__(self, name):
-         self.name = name
-         self.books = []
+        self.name = name
+        self.books = []
 
-    def add(self, title):
-        self.books.append(title)
-        print(f"Added {title} to {self.name}")
-    
-    def show_Books(self):
-         print(f"books in {self.name}", self.books)
+    def add_book(self, book):
+        self.books.append(book)
+        print(f"Added '{book.title}' to {self.name}")
 
-    def borrow(self, title):
-        if title in self.books:
-            self.books.remove(title)
-            print(f"you borrowed {title} from {self.name}")
+    def show_books(self):
+        print(f"\nBooks in {self.name}:")
+
+        if len(self.books) == 0:
+            print("No books available.")
         else:
-            print(f"{title} is not available in {self.name}")
+            for book in self.books:
+                print(book)
 
 
-lib1 = Library("One")
-lib2 = Library("Two")
+# Create multiple libraries
+lib1 = Library("Central Library")
+lib2 = Library("Computer Science Library")
+lib3 = Library("Digital Library")
 
-while True:
-    print("\n1. Add | 2. Show | 3. Borrow | 4. Exit")
-    a = input("Choose an option: ")
 
-    if a == 4:
-        break
+# Add multiple books to Library 1
+lib1.add_book(Book("Python Basics", "B001", "John Smith"))
+lib1.add_book(Book("Clean Code", "B002", "Robert Martin"))
 
-    t = input("WHich Library? lib1/lib2: ")
-    lib = lib1 if t == "lib1" else lib2
 
-    if a == "1":
-        title = input("Enter the book title: ")
-        lib.add(title)
+# Add multiple books to Library 2
+lib2.add_book(Book("Python Crash Course", "B003", "Eric Matthes"))
+lib2.add_book(Book("Artificial Intelligence", "B004", "Stuart Russell"))
 
-    elif a == "2":
-        lib.show_Books()
 
-    elif a == "3":
-        try:
-            t == input("Enter book title")
-            lib.borrow(title)
-        except:
-            print("You have already borrowed this book once")
+# Add multiple books to Library 3
+lib3.add_book(Book("Machine Learning", "B005", "Tom Mitchell"))
+lib3.add_book(Book("Deep Learning", "B006", "Ian Goodfellow"))
+
+
+# Show books on screen
+lib1.show_books()
+lib2.show_books()
+lib3.show_books()
+
+
+# Save all libraries and books to CSV
+with open("libraries.csv", "w", newline="", encoding="utf-8") as file:
+    writer = csv.writer(file)
+
+    # CSV header
+    writer.writerow(["Library", "Book ID", "Title", "Author", "Status"])
+
+    # Save Library 1
+    for book in lib1.books:
+        writer.writerow([
+            lib1.name,
+            book.book_id,
+            book.title,
+            book.author,
+            "Borrowed" if book.is_borrowed else "Available"
+        ])
+
+    # Save Library 2
+    for book in lib2.books:
+        writer.writerow([
+            lib2.name,
+            book.book_id,
+            book.title,
+            book.author,
+            "Borrowed" if book.is_borrowed else "Available"
+        ])
+
+    # Save Library 3
+    for book in lib3.books:
+        writer.writerow([
+            lib3.name,
+            book.book_id,
+            book.title,
+            book.author,
+            "Borrowed" if book.is_borrowed else "Available"
+        ])
+
+
+print("\nData saved to libraries.csv")
+
+
+# View entries from CSV
+print("\nEntries in CSV file:")
+
+with open("libraries.csv", "r", encoding="utf-8") as file:
+    reader = csv.reader(file)
+
+    for row in reader:
+        print(row)
